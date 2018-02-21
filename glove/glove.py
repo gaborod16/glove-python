@@ -298,6 +298,20 @@ class Glove(object):
             raise Exception('Word not in dictionary')
 
         return self._similarity_query(self.word_vectors[word_idx], number)[1:]
+    
+    def getVector(self, word):
+        if self.word_vectors is None:
+            raise Exception('Model must be fit before querying')
+
+        if self.dictionary is None:
+            raise Exception('No word dictionary supplied')
+
+        try:
+            word_idx = self.dictionary[word]
+        except KeyError:
+            raise Exception('Word not in dictionary')
+
+        return self.word_vectors[word_idx]
 
     def most_similar_paragraph(self, paragraph, number=5, **kwargs):
         """
