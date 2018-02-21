@@ -53,6 +53,9 @@ if __name__ == '__main__':
     parser.add_argument('--query', '-q', action='store',
                         default='',
                         help='Get closes words to this word.')
+    parser.add_argument('--vector', '-v', action='store',
+                        default='',
+                        help='Get vector of this word.')
     args = parser.parse_args()
 
 
@@ -101,3 +104,11 @@ if __name__ == '__main__':
 
         print('Querying for %s' % args.query)
         pprint.pprint(glove.most_similar(args.query, number=10))
+        
+    if args.vector:
+        if not args.train:
+            print('Loading pre-trained GloVe model')
+            glove = GloveWE.load('glove.model')
+
+        print('Retrieving vector for %s' % args.vector)
+        pprint.pprint(glove.getVector(args.vector))
